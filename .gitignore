@@ -1,0 +1,30 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Tests folder
+tests/
+
+# Virtual environment (optional, but often useful)
+venv/
+env/
+.env/
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# Compiled files
+*.pyc
+*.pyo
+*.pyd
+
+# Logs and databases
+*.log
+*.sqlite3
+translated_result
+WSDev.md
+data/VietPhrase.txt
+data/Names.txt
+data/ChinesePhienAmWords.txt
