@@ -3,6 +3,7 @@ import logging
 from typing import Dict, List, Tuple, Optional, Any, Callable
 
 from models.trie import Trie
+from models.chinese_converter import ChineseConverter
 
 # Import the new modularized functions
 from src.character_utils import LATIN_CHARS, replace_special_chars
@@ -25,6 +26,7 @@ class QTEngine(TranslationEngine):
         viet_phrase (Trie): Trie for VietPhrase data
         chinese_phien_am (Dict[str, str]): Dictionary of Chinese Phien Am words
         loading_info (Dict[str, Any]): Information about data loading
+        chinese_converter (ChineseConverter): Converter for Traditional to Simplified Chinese
     """
     
     def __init__(self, 
@@ -47,6 +49,9 @@ class QTEngine(TranslationEngine):
         
         # Store configuration
         self.config = config or {}
+        
+        # Initialize Chinese converter
+        self.chinese_converter = ChineseConverter()
         
         # Configure logging
         self.logger = logging.getLogger(__name__)
@@ -172,8 +177,13 @@ class QTEngine(TranslationEngine):
         Returns:
             str: The translated paragraph in Sino-Vietnamese.
         """
+        # First convert Traditional to Simplified if necessary
+        simplified_text = self.chinese_converter.auto_convert_to_simplified(paragraph)
+        if simplified_text is None:
+            simplified_text = paragraph
+            
         return process_paragraph(
-            paragraph, 
+            simplified_text, 
             self.names2, 
             self.names, 
             self.viet_phrase, 
