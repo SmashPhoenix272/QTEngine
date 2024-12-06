@@ -1,10 +1,12 @@
 # QTEngine: Chinese to Sino-Vietnamese Translation Engine
 
 ## Overview
-QTEngine is an engine designed to convert Chinese text to Sino-Vietnamese.
+QTEngine is an engine designed to convert Chinese text (both Traditional and Simplified) to Sino-Vietnamese. It features intelligent script detection and automatic conversion between Chinese variants.
 
 ## Features
 - Advanced text processing for Chinese to Sino-Vietnamese translation
+- Support for both Traditional and Simplified Chinese input
+- Automatic Chinese script detection and conversion
 - Modular architecture with separate components for:
   - Character utilities
   - Text processing
@@ -26,7 +28,8 @@ QTEngine/
 │   └── translation_engine.py  # Base translation engine
 │
 ├── models/                 # Data structures and models
-│   └── trie.py             # Trie data structure implementation
+│   ├── trie.py            # Trie data structure implementation
+│   └── chinese_converter.py # Traditional/Simplified Chinese conversion
 │
 ├── data/                   # Data files and resources
 ├── tests/                  # Unit and integration tests
@@ -37,13 +40,13 @@ QTEngine/
 └── requirements.txt        # Project dependencies
 ```
 
-Data Files (Not included in repository)
+## Data Files (Not included in repository)
 The engine requires several data files for translation and text processing:
 
-ChinesePhienAmWords.txt: Chinese to Sino-Vietnamese word mappings
-Names.txt: Name translations
-VietPhrase.txt: Vietnamese phrases and translations
-These files should be placed in a data directory 
+- ChinesePhienAmWords.txt: Chinese to Sino-Vietnamese word mappings
+- Names.txt: Name translations
+- VietPhrase.txt: Vietnamese phrases and translations
+- These files should be placed in a data directory 
 
 ## Installation
 
@@ -71,18 +74,25 @@ from QTEngine import QTEngine
 # Initialize the translation engine
 engine = QTEngine()
 
-# Translate Chinese text to Sino-Vietnamese
-chinese_text = "你好，世界"
-translated_text = engine.translate(chinese_text)
+# Translate Traditional Chinese text
+traditional_text = "這是繁體中文的例子"
+translated_text = engine.translate(traditional_text)
+print(translated_text)
+
+# Translate Simplified Chinese text
+simplified_text = "这是简体中文的例子"
+translated_text = engine.translate(simplified_text)
 print(translated_text)
 ```
 
 ## Dependencies
 - Python 3.7+
 - watchdog (3.0.0)
+- OpenCC (Python bindings for Chinese conversion)
 
 ## Key Components
 - **Text Processing**: Advanced algorithms for converting Chinese text
+- **Chinese Script Handling**: Intelligent detection and conversion between Traditional and Simplified Chinese
 - **Data Loader**: Efficient data management and loading
 - **Performance Tracking**: Built-in profiling for translation operations
 - **Trie Data Structure**: Optimized text manipulation
