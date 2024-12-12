@@ -37,6 +37,7 @@ class DataFileWatcher:
         # Track file modification times
         self.file_mtimes: Dict[str, float] = {}
         self._initialize_file_mtimes()
+        self.observer = None
     
     def _initialize_file_mtimes(self):
         """
@@ -110,9 +111,9 @@ class DataFileWatcher:
         
         # Setup file system observer
         event_handler = DataFileHandler(self)
-        observer = Observer()
-        observer.schedule(event_handler, self.data_dir, recursive=False)
-        observer.start()
+        self.observer = Observer()
+        self.observer.schedule(event_handler, self.data_dir, recursive=False)
+        self.observer.start()
         
         if blocking:
             try:
@@ -120,10 +121,18 @@ class DataFileWatcher:
                     time.sleep(self.check_interval)
                     self.check_and_reload()
             except KeyboardInterrupt:
-                observer.stop()
-            observer.join()
+                self.observer.stop()
+            self.observer.join()
         
-        return observer
+        return self.observer
+    
+    def stop(self):
+        """
+        Stop watching data files for changes.
+        """
+        if self.observer:
+            self.observer.stop()
+            self.observer.join()
 
 def create_data_watcher(data_dir: str, 
                         reload_callback: Optional[Callable] = None) -> DataFileWatcher:

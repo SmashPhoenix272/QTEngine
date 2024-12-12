@@ -128,9 +128,9 @@ class QTEngine(TranslationEngine):
         return {
             'loading_info': self.loading_info,
             'data_sources': {
-                'names2_size': len(self.names2.keys()),
-                'names_size': len(self.names.keys()),
-                'viet_phrase_size': len(self.viet_phrase.keys()),
+                'names2_size': len(self.names2.get_all_words()),
+                'names_size': len(self.names.get_all_words()),
+                'viet_phrase_size': len(self.viet_phrase.get_all_words()),
                 'chinese_phien_am_size': len(self.chinese_phien_am)
             }
         }
